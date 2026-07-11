@@ -51,7 +51,7 @@ export default class AccountDatatable extends NavigationMixin(LightningElement) 
     error;
     isLoading = true;
 
-    sortBy;
+    sortBy = 'Name';
     sortDirection = 'asc';
     selectedRows = [];
     draftValues = [];
