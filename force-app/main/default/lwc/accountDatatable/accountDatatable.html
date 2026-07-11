@@ -1,0 +1,67 @@
+<template>
+    <lightning-card title="Accounts" icon-name="standard:account">
+        <div slot="actions">
+            <lightning-button-group>
+                <lightning-button
+                    label="Refresh"
+                    icon-name="utility:refresh"
+                    onclick={handleRefresh}
+                ></lightning-button>
+                <lightning-button
+                    label="Delete Selected"
+                    icon-name="utility:delete"
+                    variant="destructive-text"
+                    disabled={noSelection}
+                    onclick={handleBulkDelete}
+                ></lightning-button>
+            </lightning-button-group>
+        </div>
+
+        <div class="slds-var-p-horizontal_medium">
+            <template lwc:if={isLoading}>
+                <lightning-spinner
+                    alternative-text="Loading"
+                    size="small"
+                ></lightning-spinner>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    {error}
+                </div>
+            </template>
+
+            <template lwc:if={hasData}>
+                <p class="slds-var-p-bottom_x-small slds-text-body_small slds-text-color_weak">
+                    {selectedCount} of {totalRecords} selected
+                </p>
+                <lightning-datatable
+                    key-field="Id"
+                    data={data}
+                    columns={columns}
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    selected-rows={selectedRowIds}
+                    draft-values={draftValues}
+                    show-row-number-column={showRowNumbers}
+                    enable-infinite-loading={enableInfiniteScroll}
+                    load-more-offset="20"
+                    onrowaction={handleRowAction}
+                    onsort={handleSort}
+                    onrowselection={handleRowSelection}
+                    oncellchange={handleCellChange}
+                    onsave={handleSave}
+                    oncancel={handleCancel}
+                    onloadmore={loadMoreData}
+                ></lightning-datatable>
+            </template>
+
+            <template lwc:if={isEmpty}>
+                <div class="slds-illustration slds-illustration_small slds-var-p-vertical_large">
+                    <p class="slds-text-body_regular slds-text-color_weak">No records found.</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
